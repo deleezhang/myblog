@@ -2,8 +2,8 @@
  * Created by zdl on 2015-11-4.
  */
 'use strict';
-
-angular.module('ngShowcaseApp').controller('ctrl.table.local', function ($scope) {
+var app = angular.module('myApp', []);
+app.controller('userManage', function ($scope) {
     var vm = $scope.vm = {};
     vm.page = {
         size: 5,
