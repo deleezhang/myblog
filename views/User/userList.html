@@ -1,18 +1,21 @@
 <!--头部区域 -->
 <% include ../header.html %>
+
 <div class="container" ng-app="myApp" ng-controller="userManage">
     <h3>用户管理</h3>
     <link rel="stylesheet" href="/public/dist/user/local.css"/>
 
-    <div class="input-group pull-right global-search">
+
+   <div class="input-group pull-right global-search">
         <label class="input-group-addon">全局搜索</label>
         <input type="text" class="form-control" ng-model="vm.filter.$"/>
     </div>
     <table class="table table-bordered table-hover">
         <thead>
         <tr>
-            <th ng-repeat="column in vm.columns" ng-if="!column.hidden" ng-click="vm.sort.toggle(column)"
+           <th ng-repeat="column in vm.columns" ng-if="!column.hidden" ng-click="vm.sort.toggle(column)"
                 ng-class="{sortable: column.sortable !== false}">
+
                 {{column.label}}
                 <i ng-if="column.name === vm.sort.column && vm.sort.direction"
                    class="glyphicon {{vm.sort.direction|orderClass}}"></i>
@@ -30,32 +33,20 @@
         <tr ng-repeat="item in vm.items|filter:vm.filter|orderBy:vm.sort.column:vm.sort.direction===-1|paging:vm.page.index:vm.page.size">
             <td>
                 {{item.id}}
-            <span class="btn btn-primary btn-xs pull-right" title="编辑" ng-if="!item.$editing"
-                  ng-click="item.$editing = true">
-              <i class="glyphicon glyphicon-pencil"></i>
-            </span>
-            <span class="btn btn-primary btn-xs pull-right" title="保存" ng-if="item.$editing"
-                  ng-click="item.$editing = false">
-              <i class="glyphicon glyphicon-floppy-disk"></i>
-            </span>
             </td>
             <td>
-                <span ng-if="!item.$editing">{{item.name}}</span>
-                <input type="text" class="form-control" ng-model="item.name" ng-if="item.$editing"/>
+                <span >{{item.name}}</span>
             </td>
             <td class="text-right">
-                <span ng-if="!item.$editing">{{item.followers|number}}</span>
-                <input type="number" class="form-control" ng-model="item.followers" ng-if="item.$editing"/>
+                <span >{{item.followers|number}}</span>
             </td>
             <td class="text-right">
-                <span ng-if="!item.$editing">{{item.income|currency}}</span>
-                <input type="number" class="form-control" ng-model="item.income" ng-if="item.$editing"/>
+                <span>{{item.income|currency}}</span>
             </td>
             <td>
             <span class="btn btn-primary btn-xs" title="详情" ng-mouseenter="item.popover=true"
                   ng-mouseleave="item.popover=false"><i
                     class="glyphicon glyphicon-comment"></i></span>
-
                 <div class="relative">
                     <div class="popover" ng-style="{display: item.popover?'block':'none'}">
                         <div class="popover-title">
@@ -64,7 +55,7 @@
                         <div class="popover-content">
                             粉丝：{{item.followers|number}}<br/>
                             生日：{{item.birthday|date}}<br/>
-                            年龄：{{vm.age(item.birthday)}}岁<br/>
+                            年龄：{{vm.age|number}}岁<br/>
                             收入：{{item.income|currency}}
                         </div>
                     </div>
@@ -80,15 +71,18 @@
             </select>
         </div>
         <div class="col-md-9">
-            <pagination total-items="vm.items|filter:vm.filter|size" ng-model="vm.page.index" max-size="5"
+            <!--<pagination total-items="vm.items|filter:vm.filter|size" ng-model="vm.page.index" max-size="5"
                         items-per-page="vm.page.size"
-                        class="pagination-sm pull-right" boundary-links="true"></pagination>
+                        class="pagination-sm pull-right" boundary-links="true"></pagination>-->
+            <div ng-repeat="vm.items|filter:vm.filter|size" ng-model="vm.page.index" max-size="5"
+                 items-per-page="vm.page.size" class="pagination-sm pull-right" boundary-links="true"></div>
         </div>
     </div>
 </div>
 <script src="/public/dist/user/controllerJS.js"  />
-<script src="/public/dist/user/orderClass.js" />
+
+<!--<script src="/public/dist/user/orderClass.js" />
 <script src="/public/dist/user/paging.js" />
-<script src="/public/dist/user/size.js" />
+<script src="/public/dist/user/size.js" />-->
 
 <% include ../footer.html %>

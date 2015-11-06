@@ -6,25 +6,25 @@ var app = angular.module('myApp', []);
 app.controller('userManage', function ($scope) {
     var vm = $scope.vm = {};
     vm.page = {
-        size: 5,
-        index: 1
-    };
-    vm.sort = {
-        column: 'id',
-        direction: -1,
-        toggle: function(column) {
-            if (column.sortable === false)
-                return;
+     size: 5,
+     index: 1
+     };
+     vm.sort = {
+     column: 'id',
+     direction: -1,
+     toggle: function(column) {
+         if (column.sortable === false)
+            return;
 
-            if (this.column === column.name) {
-                this.direction = -this.direction || -1;
-            } else {
-                this.column = column.name;
-                this.direction = -1;
-            }
-        }
-    };
-    // ¹¹½¨Ä£ÄâÊı¾İ
+         if (this.column === column.name) {
+            this.direction = -this.direction || -1;
+         } else {
+            this.column = column.name;
+            this.direction = -1;
+         }
+     }
+     };
+    // æ„å»ºæ¨¡æ‹Ÿæ•°æ®
     vm.columns = [
         {
             label: 'ID',
@@ -32,17 +32,17 @@ app.controller('userManage', function ($scope) {
             type: 'string'
         },
         {
-            label: 'ĞÕÃû',
+            label: 'å§“å',
             name: 'name',
             type: 'string'
         },
         {
-            label: '·ÛË¿Êı',
+            label: 'ç²‰ä¸æ•°',
             name: 'followers',
             type: 'number'
         },
         {
-            label: 'ÊÕÈë',
+            label: 'æ”¶å…¥',
             name: 'income',
             type: 'currency'
         },
@@ -52,25 +52,50 @@ app.controller('userManage', function ($scope) {
             sortable: false
         }
     ];
-    // ¹©Ò³ÃæÖĞÊ¹ÓÃµÄº¯Êı
-    vm.age = function(birthday) {
-        return moment().diff(birthday, 'years');
-    };
 
-    vm.items = [];
-    var MAX_NUM = 10 * 1000;
-    function rand(min, max) {
-        return min + Math.round(Math.random() * (max-min));
+    // ä¾›é¡µé¢ä¸­ä½¿ç”¨çš„å‡½æ•°
+     vm.items = [];
+     var MAX_NUM = 10 * 1000;
+     function rand(min, max) {
+     return min + Math.round(Math.random() * (max-min));
+     }
+     for (var i = 0; i < MAX_NUM; ++i) {
+     var id = rand(0, MAX_NUM);
+     vm.items.push({
+     id: i + 1,
+     name: 'Name' + id, // å­—ç¬¦ä¸²ç±»å‹
+     age:18,
+     followers: rand(0, 100 * 1000 * 1000), // æ•°å­—ç±»å‹
+     birthday: '', // æ—¥æœŸç±»å‹
+     summary: 'è¿™æ˜¯ä¸€ä¸ªæµ‹è¯•' + i,
+     income: rand(1000, 100000) // é‡‘é¢ç±»å‹
+     });
+     }
+
+});
+
+app.filter('orderClass', function() {
+    return function (direction) {
+        if (direction === -1)
+            return "glyphicon-chevron-down";
+        else
+            return "glyphicon-chevron-up";
     }
-    for (var i = 0; i < MAX_NUM; ++i) {
-        var id = rand(0, MAX_NUM);
-        vm.items.push({
-            id: i + 1,
-            name: 'Name' + id, // ×Ö·û´®ÀàĞÍ
-            followers: rand(0, 100 * 1000 * 1000), // Êı×ÖÀàĞÍ
-            birthday: moment().subtract('day', rand(365, 365 * 50)).toDate(), // ÈÕÆÚÀàĞÍ
-            summary: 'ÕâÊÇÒ»¸ö²âÊÔ' + i,
-            income: rand(1000, 100000) // ½ğ¶îÀàĞÍ
-        });
+});
+app.filter('paging', function() {
+    return function (items, index, pageSize) {
+        if (!items)
+            return [];
+
+        var offset = (index - 1) * pageSize;
+        return items.slice(offset, offset + pageSize);
+    }
+});
+app.filter('size', function() {
+    return function (items) {
+        if (!items)
+            return 0;
+
+        return items.length || 0
     }
 });
