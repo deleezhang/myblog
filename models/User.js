@@ -14,12 +14,12 @@ var UserSchema=mongodb.mongoose.Schema({
             src:String},
     email:String
 });
-var UserModel = db.model('user', UserSchema);
+var UserModel = mongodb.mongoose.model('user', UserSchema);
 UserSchema.statics.findUserByID = function(id, cb) {
     this.find({ _id : id }, cb);
 };
-exports.findUserByName=UserSchema.statics.findUserByName = function(name, cb) {
-    this.find({ userName : new RegExp(name, 'i') }, cb);
+exports.findUserByName= function(name, cb) {
+     this.findUserByName({ userName : name}, cb);
 };
 
 exports.add= function(obj,cb){
@@ -61,4 +61,8 @@ exports.update=function(obj,cb){
             });
         }
     });
+};
+
+exports.execPageQuery=UserModel.execPageQuery= function(currentPage,pageSize, conditions, fields, options,callback){
+
 };

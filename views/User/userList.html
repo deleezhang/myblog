@@ -2,7 +2,7 @@
 <% include ../header.html %>
 
 <div class="container" ng-app="myApp" ng-controller="userManage">
-    <h3>用户管理</h3>
+    <h3>用户管理--<%= title %></h3>
     <link rel="stylesheet" href="/public/dist/user/local.css"/>
 
 
@@ -23,13 +23,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td><input type="text" ng-model="vm.filter.id" class="form-control"/></td>
-            <td><input type="text" ng-model="vm.filter.name" class="form-control"/></td>
-            <td><input type="number" ng-model="vm.filter.followers" class="form-control"/></td>
-            <td><input type="number" ng-model="vm.filter.income" class="form-control"/></td>
-            <td></td>
-        </tr>
+
         <tr ng-repeat="item in vm.items|filter:vm.filter|orderBy:vm.sort.column:vm.sort.direction===-1|paging:vm.page.index:vm.page.size">
             <td>
                 {{item.id}}
@@ -74,8 +68,16 @@
             <!--<pagination total-items="vm.items|filter:vm.filter|size" ng-model="vm.page.index" max-size="5"
                         items-per-page="vm.page.size"
                         class="pagination-sm pull-right" boundary-links="true"></pagination>-->
-            <div ng-repeat="vm.items|filter:vm.filter|size" ng-model="vm.page.index" max-size="5"
-                 items-per-page="vm.page.size" class="pagination-sm pull-right" boundary-links="true"></div>
+                <ul class="pagination" style="margin: 0px">
+                    <li><a href="#">&laquo;</a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li class="disabled"><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">&raquo;</a></li>
+                </ul>
+
         </div>
     </div>
 </div>
